@@ -2,7 +2,7 @@
 
 This is the source code for IJCAI 2018 paper "Scalable Multiplex Network Embedding".
 
-The readers are welcome to star/fork this reposity and use it to train your own model, reproduce our experiment, and follow our future work. Please kindly cite our paper:
+The readers are welcome to star/fork this repository and use it to train your own model, reproduce our experiment, and follow our future work. Please kindly cite our paper:
 ```
 inproceedings{zhang2018MNE,
 title={Scalable Multiplex Network Embedding},
@@ -11,7 +11,7 @@ booktitle={IJCAI},
 year={2018}
 }
 ```
-Note that due to the size limitation of the reposity, we only provide few small datasets to help you understand our code and reproduce our experiment. You are welcome to download those largest datasets by yourself or use your own dataset.
+Note that due to the size limitation of the repository, we only provide few small datasets to help you understand our code and reproduce our experiment. You are welcome to download those largest datasets by yourself or use your own dataset.
 
 # Requirement
 ```
