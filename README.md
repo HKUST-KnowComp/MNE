@@ -57,4 +57,4 @@ We built the training framework based on the original [Gensim Word2Vec](https://
 We used the code from [LINE](https://github.com/tangjianpku/LINE), [Node2Vec](https://github.com/aditya-grover/node2vec), and algorithm from [PMNE](https://arxiv.org/pdf/1709.03551.pdf) to complete our experiment.
 
 # Others
-If you have some questions about the code, you are welcome to open an issue or send me and email, I will respond to that as soon as possible.
+If you have some questions about the code, you are welcome to open an issue or send me an email, I will respond to that as soon as possible.
