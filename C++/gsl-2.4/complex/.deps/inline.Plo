@@ -1,0 +1,12 @@
+inline.lo: inline.c /usr/include/stdc-predef.h ../build.h \
+ ../gsl/gsl_complex_math.h ../gsl/gsl_inline.h ../gsl/gsl_complex.h
+
+/usr/include/stdc-predef.h:
+
+../build.h:
+
+../gsl/gsl_complex_math.h:
+
+../gsl/gsl_inline.h:
+
+../gsl/gsl_complex.h:

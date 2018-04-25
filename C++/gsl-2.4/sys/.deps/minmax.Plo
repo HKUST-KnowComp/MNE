@@ -1,0 +1,12 @@
+minmax.lo: minmax.c /usr/include/stdc-predef.h ../config.h ../build.h \
+ ../gsl/gsl_minmax.h ../gsl/gsl_inline.h
+
+/usr/include/stdc-predef.h:
+
+../config.h:
+
+../build.h:
+
+../gsl/gsl_minmax.h:
+
+../gsl/gsl_inline.h:

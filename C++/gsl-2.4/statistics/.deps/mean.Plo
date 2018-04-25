@@ -1,0 +1,45 @@
+mean.lo: mean.c /usr/include/stdc-predef.h ../config.h \
+ ../gsl/gsl_statistics.h ../gsl/gsl_statistics_long_double.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h \
+ ../gsl/gsl_statistics_double.h ../gsl/gsl_statistics_float.h \
+ ../gsl/gsl_statistics_ulong.h ../gsl/gsl_statistics_long.h \
+ ../gsl/gsl_statistics_uint.h ../gsl/gsl_statistics_int.h \
+ ../gsl/gsl_statistics_ushort.h ../gsl/gsl_statistics_short.h \
+ ../gsl/gsl_statistics_uchar.h ../gsl/gsl_statistics_char.h \
+ ../templates_on.h mean_source.c ../templates_off.h
+
+/usr/include/stdc-predef.h:
+
+../config.h:
+
+../gsl/gsl_statistics.h:
+
+../gsl/gsl_statistics_long_double.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h:
+
+../gsl/gsl_statistics_double.h:
+
+../gsl/gsl_statistics_float.h:
+
+../gsl/gsl_statistics_ulong.h:
+
+../gsl/gsl_statistics_long.h:
+
+../gsl/gsl_statistics_uint.h:
+
+../gsl/gsl_statistics_int.h:
+
+../gsl/gsl_statistics_ushort.h:
+
+../gsl/gsl_statistics_short.h:
+
+../gsl/gsl_statistics_uchar.h:
+
+../gsl/gsl_statistics_char.h:
+
+../templates_on.h:
+
+mean_source.c:
+
+../templates_off.h:

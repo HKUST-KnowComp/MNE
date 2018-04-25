@@ -1,0 +1,92 @@
+wkurtosis.lo: wkurtosis.c /usr/include/stdc-predef.h ../config.h \
+ /usr/include/math.h /usr/include/features.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/huge_val.h \
+ /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
+ /usr/include/x86_64-linux-gnu/bits/huge_vall.h \
+ /usr/include/x86_64-linux-gnu/bits/inf.h \
+ /usr/include/x86_64-linux-gnu/bits/nan.h \
+ /usr/include/x86_64-linux-gnu/bits/mathdef.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+ /usr/include/x86_64-linux-gnu/bits/mathinline.h ../gsl/gsl_statistics.h \
+ ../gsl/gsl_statistics_long_double.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h \
+ ../gsl/gsl_statistics_double.h ../gsl/gsl_statistics_float.h \
+ ../gsl/gsl_statistics_ulong.h ../gsl/gsl_statistics_long.h \
+ ../gsl/gsl_statistics_uint.h ../gsl/gsl_statistics_int.h \
+ ../gsl/gsl_statistics_ushort.h ../gsl/gsl_statistics_short.h \
+ ../gsl/gsl_statistics_uchar.h ../gsl/gsl_statistics_char.h \
+ ../templates_on.h wkurtosis_source.c ../templates_off.h
+
+/usr/include/stdc-predef.h:
+
+../config.h:
+
+/usr/include/math.h:
+
+/usr/include/features.h:
+
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
+
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
+
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/usr/include/x86_64-linux-gnu/bits/huge_val.h:
+
+/usr/include/x86_64-linux-gnu/bits/huge_valf.h:
+
+/usr/include/x86_64-linux-gnu/bits/huge_vall.h:
+
+/usr/include/x86_64-linux-gnu/bits/inf.h:
+
+/usr/include/x86_64-linux-gnu/bits/nan.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathdef.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathinline.h:
+
+../gsl/gsl_statistics.h:
+
+../gsl/gsl_statistics_long_double.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h:
+
+../gsl/gsl_statistics_double.h:
+
+../gsl/gsl_statistics_float.h:
+
+../gsl/gsl_statistics_ulong.h:
+
+../gsl/gsl_statistics_long.h:
+
+../gsl/gsl_statistics_uint.h:
+
+../gsl/gsl_statistics_int.h:
+
+../gsl/gsl_statistics_ushort.h:
+
+../gsl/gsl_statistics_short.h:
+
+../gsl/gsl_statistics_uchar.h:
+
+../gsl/gsl_statistics_char.h:
+
+../templates_on.h:
+
+wkurtosis_source.c:
+
+../templates_off.h:

@@ -1,0 +1,10 @@
+version.lo: version.c /usr/include/stdc-predef.h config.h gsl_version.h \
+ gsl/gsl_types.h
+
+/usr/include/stdc-predef.h:
+
+config.h:
+
+gsl_version.h:
+
+gsl/gsl_types.h:

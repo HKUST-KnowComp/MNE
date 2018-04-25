@@ -1,0 +1,12 @@
+chisqinv.lo: chisqinv.c /usr/include/stdc-predef.h ../config.h \
+ ../gsl/gsl_cdf.h ../gsl/gsl_sf_gamma.h ../gsl/gsl_sf_result.h
+
+/usr/include/stdc-predef.h:
+
+../config.h:
+
+../gsl/gsl_cdf.h:
+
+../gsl/gsl_sf_gamma.h:
+
+../gsl/gsl_sf_result.h:
