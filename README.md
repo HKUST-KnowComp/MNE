@@ -18,7 +18,7 @@ Note that due to the size limitation of the repository, we only provide few smal
 Python 3
 networkx >= 1.11
 sklearn >= 0.18.1
-gensim >= 1.0.1
+gensim >= 3.4
 ```
 # Dataset
 Here we provide Vickers dataset as an example, you can download all the other datasets from [Twitter Higgs](https://snap.stanford.edu/data/higgs-twitter.html)，[Manlio project](http://deim.urv.cat/~manlio.dedomenico/data.php).
