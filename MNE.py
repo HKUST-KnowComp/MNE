@@ -318,12 +318,11 @@ class MNE(utils.SaveLoad):
             logger.warning('Slow version of {0} is being used'.format(__name__))
         else:
             logger.debug('Fast version of {0} is being used'.format(__name__))
-
+        self.vector_size = int(size)
+        self.layer1_size = int(size)
         self.initialize_word_vectors()
         self.sg = int(sg)
         self.cum_table = None  # for negative sampling
-        self.vector_size = int(size)
-        self.layer1_size = int(size)
         if size % 4 != 0:
             logger.warning("consider setting layer size to a multiple of 4 for greater performance")
         self.alpha = float(alpha)
@@ -363,7 +362,7 @@ class MNE(utils.SaveLoad):
             self.train(sentences)
 
     def initialize_word_vectors(self):
-        self.wv = KeyedVectors()
+        self.wv = KeyedVectors(self.vector_size)
 
     def make_cum_table(self, power=0.75, domain=2**31 - 1):
         """

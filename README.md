@@ -1,6 +1,6 @@
 # MNE(Multiplex Network Embedding)
 
-This is the source code for IJCAI 2018 paper "Scalable Multiplex Network Embedding".
+This is the source code for IJCAI 2018 paper ["Scalable Multiplex Network Embedding"](http://www.cse.ust.hk/~yqsong/papers/2018-IJCAI-MultiplexNetworkEmbedding.pdf).
 
 The readers are welcome to star/fork this repository and use it to train your own model, reproduce our experiment, and follow our future work. Please kindly cite our paper:
 ```
