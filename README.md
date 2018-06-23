@@ -4,7 +4,7 @@ This is the source code for IJCAI 2018 paper ["Scalable Multiplex Network Embedd
 
 The readers are welcome to star/fork this repository and use it to train your own model, reproduce our experiment, and follow our future work. Please kindly cite our paper:
 ```
-inproceedings{zhang2018MNE,
+@inproceedings{zhang2018MNE,
 title={Scalable Multiplex Network Embedding},
 author={Zhang, Hongming and Qiu, Liwei and Yi, Lingling and Song, Yangqiu},
 booktitle={IJCAI},
