@@ -21,7 +21,7 @@ sklearn >= 0.18.1
 gensim >= 3.4
 ```
 # Dataset
-Here we provide Vickers dataset as an example, you can download all the other datasets from [Twitter Higgs](https://snap.stanford.edu/data/higgs-twitter.html)，[Multiplex(old)](http://deim.urv.cat/~manlio.dedomenico/data.php) or [Multiplex(new)](http://deim.urv.cat/~alephsys/data.html).
+Here we provide Vickers dataset as an example, you can download all the other datasets from [Twitter Higgs](https://snap.stanford.edu/data/higgs-twitter.html)，[Multiplex(old)](http://deim.urv.cat/~manlio.dedomenico/data.php), or [Multiplex(new)](http://deim.urv.cat/~alephsys/data.html).
 You can also use your own multiplex network dateset, as long as it fits the following template.
 ```
 edge_type head tail weight
