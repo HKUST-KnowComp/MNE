@@ -5,10 +5,19 @@ This is the source code for IJCAI 2018 paper ["Scalable Multiplex Network Embedd
 The readers are welcome to star/fork this repository and use it to train your own model, reproduce our experiment, and follow our future work. Please kindly cite our paper:
 ```
 @inproceedings{zhang2018MNE,
-title={Scalable Multiplex Network Embedding},
-author={Zhang, Hongming and Qiu, Liwei and Yi, Lingling and Song, Yangqiu},
-booktitle={IJCAI},
-year={2018}
+  author    = {Hongming Zhang and
+               Liwei Qiu and
+               Lingling Yi and
+               Yangqiu Song},
+  title     = {Scalable Multiplex Network Embedding},
+  booktitle = {Proceedings of the Twenty-Seventh International Joint Conference on
+               Artificial Intelligence, {IJCAI} 2018, July 13-19, 2018, Stockholm,
+               Sweden.},
+  pages     = {3082--3088},
+  year      = {2018},
+  url       = {https://doi.org/10.24963/ijcai.2018/428},
+  doi       = {10.24963/ijcai.2018/428},
+  timestamp = {Sat, 28 Jul 2018 14:39:21 +0200}
 }
 ```
 Note that due to the size limitation of the repository, we only provide few small datasets to help you understand our code and reproduce our experiment. You are welcome to download those largest datasets by yourself or use your own dataset.
