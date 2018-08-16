@@ -12,7 +12,7 @@ import itertools
 import numpy as np
 import networkx as nx
 import Random_walk
-
+from gensim.models import Word2Vec
 from gensim.utils import keep_vocab_item, call_on_class_only
 from gensim.utils import keep_vocab_item
 from gensim.models.keyedvectors import KeyedVectors, Vocab
@@ -74,10 +74,17 @@ def load_network_data(f_name):
             all_nodes.append(words[2])
     all_nodes = list(set(all_nodes))
     # create common layer.
-    all_edges = list(set(all_edges))
-    edge_data_by_type['Base'] = all_edges
+    # all_edges = list(set(all_edges))
+    # edge_data_by_type['Base'] = all_edges
     print('Finish loading data')
     return edge_data_by_type, all_edges, all_nodes
+
+
+def train_deepwalk_embedding(walks, iteration=None):
+    if iteration is None:
+        iteration = 100
+    model = Word2Vec(walks, size=200, window=5, min_count=0, sg=1, workers=4, iter=iteration)
+    return model
 
 
 def train_embedding(current_embedding, walks, layer_id, iter=10, info_size=10, base_weight=1):
@@ -104,7 +111,7 @@ def train_embedding(current_embedding, walks, layer_id, iter=10, info_size=10, b
     new_model = MNE(training_data, size=200, window=5, min_count=0, sg=1, workers=4, iter=iter, small_size=info_size, initial_embedding=initial_embedding, base_weight=base_weight)
     # new_model = merge_model(tmp_model, new_model, w=learning_rate)
 
-    return new_model.in_base, new_model.in_tran, new_model.in_local, new_model.syn1neg, new_model.wv.index2word
+    return new_model.in_base, new_model.in_tran, new_model.in_local, new_model.wv.index2word
 
 
 def train_model(network_data):
@@ -113,18 +120,17 @@ def train_model(network_data):
     print('finish building the graph')
     base_G.preprocess_transition_probs()
     base_walks = base_G.simulate_walks(20, 10)
-    base_embedding, _, _, context_embedding, index2word = train_embedding(None, base_walks, 'Base', 100, 10, 1)
+    base_embedding, _, _, index2word = train_embedding(None, base_walks, 'Base', 100, 10, 1)
     final_model = dict()
     final_model['base'] = base_embedding
     final_model['tran'] = dict()
     final_model['addition'] = dict()
-    final_model['context'] = context_embedding
     final_model['index2word'] = index2word
-
     # you can repeat this process for multiple times
     for layer_id in network_data:
         if layer_id == 'Base':
             continue
+        print('We are training model for layer:', layer_id)
         if layer_id not in final_model['addition']:
             final_model['addition'][layer_id] = zeros((len(final_model['index2word']), 10), dtype=REAL)
         tmp_data = network_data[layer_id]
@@ -132,19 +138,15 @@ def train_model(network_data):
         layer_G = Random_walk.RWGraph(get_G_from_edges(tmp_data), 'directed', 1, 1)
         layer_G.preprocess_transition_probs()
         layer_walks = layer_G.simulate_walks(20, 10)
-        tmp_base, tmp_tran, tmp_local, tmp_syn1neg, tmp_index2word = train_embedding(final_model, layer_walks, layer_id, 10, 10, 0)
+        tmp_base, tmp_tran, tmp_local, tmp_index2word = train_embedding(final_model, layer_walks, layer_id, 20, 10, 0)
         base_embedding_dict = dict()
         local_embedding_dict = dict()
-        context_embedding = dict()
         for pos in range(len(tmp_index2word)):
             base_embedding_dict[tmp_index2word[pos]] = tmp_base[pos]
             local_embedding_dict[tmp_index2word[pos]] = tmp_local[pos]
-            context_embedding[tmp_index2word[pos]] = tmp_syn1neg[pos]
         final_model['tran'][layer_id] = tmp_tran
         for tmp_word in tmp_index2word:
-            final_model['base'][final_model['index2word'].index(tmp_word)] = base_embedding_dict[tmp_word]
             final_model['addition'][layer_id][final_model['index2word'].index(tmp_word)] = local_embedding_dict[tmp_word]
-            final_model['context'][final_model['index2word'].index(tmp_word)] = context_embedding[tmp_word]
     return final_model
 
 

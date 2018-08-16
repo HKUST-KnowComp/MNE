@@ -5,7 +5,7 @@ from sklearn.metrics import roc_auc_score
 import math
 import subprocess
 import Node2Vec_LayerSelect
-from gensim.models import Word2Vec
+
 import argparse
 from MNE import *
 
@@ -64,15 +64,7 @@ def divide_data(input_list, group_number):
             range(group_number)]
 
 
-def train_deepwalk_embedding(walks, iteration=None):
-    if iteration is None:
-        iteration = 100
-    model = Word2Vec(walks, size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers,
-                     iter=iteration)
-    return model
-
-
-def randomly_choose_false_edges(nodes, number, true_edges):
+def randomly_choose_false_edges(nodes, true_edges):
     tmp_list = list()
     all_edges = list()
     for i in range(len(nodes)):
@@ -416,10 +408,10 @@ def Evaluate_PMNE_methods(input_network):
     return method_one_performance, method_two_performance, method_three_performance
 
 args = parse_args()
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+# logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 file_name = sys.argv[1]
 # file_name = 'data/Vickers-Chan-7thGraders_multiplex.edges'
-edge_data_by_type, all_edges, all_nodes = load_network_data(file_name)
+edge_data_by_type, _, all_nodes = load_network_data(file_name)
 # model = train_model(edge_data_by_type)
 
 # In our experiment, we use 5-fold cross-validation, but you can change that
@@ -461,9 +453,9 @@ for i in range(number_of_groups):
             base_edges.append(edge)
             training_nodes.append(edge[0])
             training_nodes.append(edge[1])
-    edge_data_by_type['Base'] = base_edges
     training_nodes = list(set(training_nodes))
-    MNE_model = train_model(edge_data_by_type)
+    training_data_by_type['Base'] = base_edges
+    MNE_model = train_model(training_data_by_type)
 
     tmp_MNE_performance = 0
     tmp_node2Vec_performance = 0
@@ -473,7 +465,6 @@ for i in range(number_of_groups):
     merged_networks['training'] = dict()
     merged_networks['test_true'] = dict()
     merged_networks['test_false'] = dict()
-    number_of_edges = 0
     for edge_type in training_data_by_type:
         if edge_type == 'Base':
             continue
@@ -491,8 +482,7 @@ for i in range(number_of_groups):
                 selected_true_edges.append(edge)
         if len(selected_true_edges) == 0:
             continue
-        selected_false_edges = randomly_choose_false_edges(training_nodes, len(selected_true_edges)/2,
-                                                            edge_data_by_type[edge_type])
+        selected_false_edges = randomly_choose_false_edges(training_nodes, edge_data_by_type[edge_type])
         print('number of info network edges:', len(training_data_by_type[edge_type]))
         print('number of evaluation edges:', len(selected_true_edges))
         merged_networks['training'][edge_type] = set(training_data_by_type[edge_type])
@@ -501,12 +491,14 @@ for i in range(number_of_groups):
 
         local_model = dict()
         for pos in range(len(MNE_model['index2word'])):
-            local_model[MNE_model['index2word'][pos]] = MNE_model['base'][pos] + np.dot(MNE_model['addition'][edge_type][pos], MNE_model['tran'][edge_type])
+            # 0.5 is the weight parameter mentioned in the paper, which is used to show how important each relation type is and can be tuned based on the network.
+            local_model[MNE_model['index2word'][pos]] = MNE_model['base'][pos] + 0.5*np.dot(MNE_model['addition'][edge_type][pos], MNE_model['tran'][edge_type])
         tmp_MNE_score = get_dict_AUC(local_model, selected_true_edges, selected_false_edges)
+        # tmp_MNE_score = get_AUC(MNE_model['addition'][edge_type], selected_true_edges, selected_false_edges)
         print('MNE score:', tmp_MNE_score)
         node2vec_G = Random_walk.RWGraph(get_G_from_edges(training_data_by_type[edge_type]), args.directed, 2, 0.5)
         node2vec_G.preprocess_transition_probs()
-        node2vec_walks = node2vec_G.simulate_walks(10, 10)
+        node2vec_walks = node2vec_G.simulate_walks(20, 10)
         node2vec_model = train_deepwalk_embedding(node2vec_walks)
         tmp_node2vec_score = get_AUC(node2vec_model, selected_true_edges, selected_false_edges)
         print('node2vec score:', tmp_node2vec_score)
@@ -514,25 +506,24 @@ for i in range(number_of_groups):
         Deepwalk_G.preprocess_transition_probs()
         Deepwalk_walks = Deepwalk_G.simulate_walks(args.num_walks, 10)
         Deepwalk_model = train_deepwalk_embedding(Deepwalk_walks)
-        tmp_Deepwalk_score = get_AUC(node2vec_model, selected_true_edges, selected_false_edges)
+        tmp_Deepwalk_score = get_AUC(Deepwalk_model, selected_true_edges, selected_false_edges)
         print('Deepwalk score:', tmp_Deepwalk_score)
         LINE_model = train_LINE_model(training_data_by_type[edge_type])
         tmp_LINE_score = get_dict_AUC(LINE_model, selected_true_edges, selected_false_edges)
         print('LINE score:', tmp_LINE_score)
-        tmp_MNE_performance += tmp_MNE_score * 1
-        tmp_node2Vec_performance += tmp_node2vec_score * 1
-        tmp_LINE_performance += tmp_LINE_score * 1
-        tmp_Deepwalk_performance += tmp_Deepwalk_score * 1
-        number_of_edges += 1
+        tmp_MNE_performance += tmp_MNE_score
+        tmp_node2Vec_performance += tmp_node2vec_score
+        tmp_LINE_performance += tmp_LINE_score
+        tmp_Deepwalk_performance += tmp_Deepwalk_score
 
-    print('MNE performance:', tmp_MNE_performance / number_of_edges)
-    print('node2vec performance:', tmp_node2Vec_performance / number_of_edges)
-    print('LINE performance:', tmp_LINE_performance / number_of_edges)
-    print('Deepwalk performance:', tmp_Deepwalk_performance / number_of_edges)
-    overall_MNE_performance.append(tmp_MNE_performance / number_of_edges)
-    overall_node2Vec_performance.append(tmp_node2Vec_performance / number_of_edges)
-    overall_LINE_performance.append(tmp_LINE_performance / number_of_edges)
-    overall_Deepwalk_performance.append(tmp_Deepwalk_performance / number_of_edges)
+    print('MNE performance:', tmp_MNE_performance / (len(training_data_by_type)-1))
+    print('node2vec performance:', tmp_node2Vec_performance / (len(training_data_by_type)-1))
+    print('LINE performance:', tmp_LINE_performance / (len(training_data_by_type)-1))
+    print('Deepwalk performance:', tmp_Deepwalk_performance / (len(training_data_by_type)-1))
+    overall_MNE_performance.append(tmp_MNE_performance / (len(training_data_by_type)-1))
+    overall_node2Vec_performance.append(tmp_node2Vec_performance / (len(training_data_by_type)-1))
+    overall_LINE_performance.append(tmp_LINE_performance / (len(training_data_by_type)-1))
+    overall_Deepwalk_performance.append(tmp_Deepwalk_performance / (len(training_data_by_type)-1))
     common_neighbor_performance, Jaccard_performance, AA_performance = Evaluate_basic_methods(merged_networks)
     performance_1, performance_2, performance_3 = Evaluate_PMNE_methods(merged_networks)
     overall_common_neighbor_performance.append(common_neighbor_performance)
