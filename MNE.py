@@ -74,8 +74,8 @@ def load_network_data(f_name):
             all_nodes.append(words[2])
     all_nodes = list(set(all_nodes))
     # create common layer.
-    # all_edges = list(set(all_edges))
-    # edge_data_by_type['Base'] = all_edges
+    all_edges = list(set(all_edges))
+    edge_data_by_type['Base'] = all_edges
     print('Finish loading data')
     return edge_data_by_type, all_edges, all_nodes
 
@@ -236,7 +236,7 @@ class MNE(utils.SaveLoad):
             self, sentences=None, size=100, small_size=10, alpha=0.025, window=5, min_count=5,
             max_vocab_size=None, sample=1e-3, seed=1, workers=3, min_alpha=0.0001,
             sg=0, hs=0, negative=5, cbow_mean=1, hashfxn=hash, iter=5, null_word=0,
-            trim_rule=None, sorted_vocab=1, batch_words=MAX_WORDS_IN_BATCH, directed=False, initial_embedding=None, limitation=1000, base_weight=1):
+            trim_rule=None, sorted_vocab=1, batch_words=MAX_WORDS_IN_BATCH, directed=False, initial_embedding=None, limitation=1000, base_weight=1.0):
         """
         Initialize the model from an iterable of `sentences`. Each sentence is a
         list of words (unicode strings) that will be used for training.
