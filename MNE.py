@@ -16,6 +16,7 @@ from gensim.models import Word2Vec
 from gensim.utils import keep_vocab_item, call_on_class_only
 from gensim.utils import keep_vocab_item
 from gensim.models.keyedvectors import KeyedVectors, Vocab
+import json
 
 try:
     from queue import Queue, Empty
@@ -151,10 +152,32 @@ def train_model(network_data):
 
 
 def save_model(final_model, save_folder_name):
+    with open(save_folder_name+'/'+'index2word.json', 'w') as f:
+        json.dump(final_model['index2word'], f)
     final_model['base'].tofile(save_folder_name+'/base.dat')
     for layer_id in final_model['addition']:
         final_model['tran'][layer_id].tofile(save_folder_name+'/tran_'+str(layer_id)+'.dat')
         final_model['addition'][layer_id].tofile(save_folder_name+'/addition_'+str(layer_id)+'.dat')
+
+
+def load_model(data_folder_name):
+    file_names = os.listdir(data_folder_name)
+    layer_ids = list()
+    for name in file_names:
+        if name[:4] == 'tran':
+            tmp_id_name = name[5:-4]
+            if tmp_id_name not in layer_ids:
+                layer_ids.append(tmp_id_name)
+    final_model = dict()
+    final_model['base'] = np.fromfile(data_folder_name+'/base.dat')
+    final_model['tran'] = dict()
+    final_model['addition'] = dict()
+    with open(data_folder_name+'/'+'index2word.json', 'r') as f:
+        final_model['index2word'] = json.load(f)
+    for layer_id in layer_ids:
+        final_model['tran'][layer_id] = np.fromfile(data_folder_name+'/tran_'+str(layer_id)+'.dat')
+        final_model['addition'][layer_id] = np.fromfile(data_folder_name+'/addition_'+str(layer_id)+'.dat')
+    return final_model
 
 
 def train_batch(model, sentences, alpha, limitation, base_weight, work=None):
