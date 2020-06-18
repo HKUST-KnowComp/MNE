@@ -14,6 +14,7 @@ edge_data_by_type, all_edges, all_nodes = load_network_data(file_name)
 model = train_model(edge_data_by_type)
 # print(model)
 save_model(model, 'model')
+save_embeddings(model, 'model')
 
 test_model = load_model('model')
 # print(test_model)

@@ -159,6 +159,31 @@ def save_model(final_model, save_folder_name):
         np.save(save_folder_name+'/tran_'+str(layer_id)+'.npy', final_model['tran'][layer_id])
         np.save(save_folder_name+'/addition_'+str(layer_id)+'.npy', final_model['addition'][layer_id])
 
+def save_embeddings(final_model, save_folder_name, weights = None):
+
+    if weights == None:
+        weights = {key:1 for key in final_model['addition']}
+
+    indexes = [int(x) for x in final_model['index2word']]
+    # Make sure that indexes start at 0
+    if min(indexes) != 0:
+        indexes = [x - min(indexes) for x in indexes]
+    assert min(indexes) == 0
+
+    base = final_model['base']
+    assert base.shape[0] == len(indexes)
+   
+    embeddings = np.zeros(base.shape)
+    for index in range(base.shape[0]):
+        real_index = indexes[index]
+        v_list = []
+        for layer_id in final_model['addition']:
+            # Equation 1 in paper
+            v = base[index] + weights[layer_id] * np.dot(final_model['addition'][layer_id][index], final_model['tran'][layer_id])
+            v_list.append(v)
+        embeddings[real_index] = np.mean(v_list, axis=0)
+
+    np.save(save_folder_name + '/embeddings', embeddings)
 
 def load_model(data_folder_name):
     file_names = os.listdir(data_folder_name)
